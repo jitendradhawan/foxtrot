@@ -28,12 +28,14 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import ru.vyarus.dropwizard.guice.module.installer.order.Order;
 
 /**
  * User: Santanu Sinha (santanu.sinha@flipkart.com)
  * Date: 15/03/14
  * Time: 10:01 PM
  */
+@Order(10)
 @Singleton
 public class HazelcastConnection implements Managed {
     private static final Logger logger = LoggerFactory.getLogger(HazelcastConnection.class.getSimpleName());

@@ -13,7 +13,6 @@ import com.hazelcast.config.EvictionPolicy;
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.IMap;
 import io.dropwizard.lifecycle.Managed;
-import io.dropwizard.server.ServerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +23,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import ru.vyarus.dropwizard.guice.module.installer.order.Order;
 
+@Order(20)
 @Singleton
 public class ClusterManager implements Managed {
     private static final Logger logger = LoggerFactory.getLogger(ClusterManager.class.getSimpleName());
