@@ -6,8 +6,8 @@ import com.flipkart.foxtrot.common.query.general.EqualsFilter;
 import com.flipkart.foxtrot.core.funnel.model.visitor.FunnelExtrapolationValidator;
 import com.flipkart.foxtrot.core.querystore.actions.Utils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,25 +16,23 @@ public class FunnelExtrapolationUtils {
 
     public static final String FUNNEL_ID_QUERY_FIELD = "eventData.funnelInfo.funnelId";
 
-    public static final List<String> VALID_STATS_FOR_EXTRAPOLATION = Arrays.asList(
-            Utils.COUNT, Utils.SUM, Utils.SUM_OF_SQUARES);
+    private static final List<String> VALID_STATS_FOR_EXTRAPOLATION = Arrays.asList(Utils.COUNT, Utils.SUM,
+            Utils.SUM_OF_SQUARES);
 
-    private FunnelExtrapolationUtils(){
+    private FunnelExtrapolationUtils() {
 
     }
 
     public static Optional<Long> extractFunnelId(ActionRequest actionRequest) {
         FunnelExtrapolationValidator extrapolationValidator = new FunnelExtrapolationValidator();
-        Boolean extrapolationApplicable = actionRequest.accept(extrapolationValidator);
-        if (Objects.nonNull(extrapolationApplicable) && extrapolationApplicable) {
-            // TODO: Extract funnelId from eventType when funnelId is not given in filter
+        boolean extrapolationApplicable = actionRequest.accept(extrapolationValidator);
+        if (extrapolationApplicable) {
             // Extract funnel id if equals filter is applied on eventData.funnelInfo.funnelId
             try {
-                Optional<Filter> funnelIdFilter = actionRequest.getFilters().stream()
-                        .filter(filter -> (filter instanceof EqualsFilter)
-                                && (filter.getField().equals(FUNNEL_ID_QUERY_FIELD))
-                                && ((EqualsFilter) filter).getValue() instanceof String
-                        )
+                Optional<Filter> funnelIdFilter = actionRequest.getFilters()
+                        .stream()
+                        .filter(filter -> (filter instanceof EqualsFilter) && (filter.getField()
+                                .equals(FUNNEL_ID_QUERY_FIELD)))
                         .findFirst();
                 if (funnelIdFilter.isPresent()) {
                     Long funnelId = Long.parseLong((String) (((EqualsFilter) funnelIdFilter.get()).getValue()));
@@ -48,7 +46,9 @@ public class FunnelExtrapolationUtils {
         }
         log.debug("Extrapolation not applicable for actionRequest: {}", actionRequest);
         return Optional.empty();
-
     }
 
+    public static List<String> getValidStatsForExtrapolation() {
+        return Collections.unmodifiableList(VALID_STATS_FOR_EXTRAPOLATION);
+    }
 }
