@@ -120,7 +120,7 @@ distributedLockConfig:
 funnelConfiguration:
   querySize: 100
   funnelIndex: foxtrot_funnel
-  funnelConsoleUrl: http://siphon-ui.traefik.stg.phonepe.com/#/
+  funnelConsoleUrl: http://localhost:17000/#/
   baseFunnelEventConfig:
     eventType: APP_LOADED
     category: APP_LOADED
@@ -173,3 +173,10 @@ funnelConfiguration:
       - Latitude
       - Longitude
       - OS
+
+
+clusterRerouteConfig:
+  active: false
+  interval: 86400
+  initialDelay: 10
+  thresholdShardCountPercentage: 10

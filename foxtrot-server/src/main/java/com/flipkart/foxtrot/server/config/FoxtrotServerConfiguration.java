@@ -27,6 +27,7 @@ import com.flipkart.foxtrot.core.lock.HazelcastDistributedLockConfig;
 import com.flipkart.foxtrot.core.querystore.impl.CacheConfig;
 import com.flipkart.foxtrot.core.querystore.impl.ClusterConfig;
 import com.flipkart.foxtrot.core.querystore.impl.ElasticsearchConfig;
+import com.flipkart.foxtrot.core.reroute.ClusterRerouteConfig;
 import com.flipkart.foxtrot.server.jobs.consolehistory.ConsoleHistoryConfig;
 import com.foxtrot.flipkart.translator.config.SegregationConfiguration;
 import com.foxtrot.flipkart.translator.config.TranslatorConfig;
@@ -67,20 +68,24 @@ public class FoxtrotServerConfiguration extends Configuration {
     private EsIndexOptimizationConfig esIndexOptimizationConfig;
     @Valid
     private ConsoleHistoryConfig consoleHistoryConfig;
+    @Valid
     private EmailConfig emailConfig;
+    @Valid
     private CacheConfig cacheConfig;
 
+    @Valid
     private RangerConfiguration rangerConfiguration;
 
+    @Valid
     private SegregationConfiguration segregationConfiguration;
 
     @NotNull
     private boolean restrictAccess;
 
-    private GandalfConfiguration gandalfConfiguration;
-
+    @Valid
     private ElasticsearchTuningConfig elasticsearchTuningConfig;
 
+    @Valid
     @Builder.Default
     private TranslatorConfig translatorConfig = new TranslatorConfig();
 
@@ -93,6 +98,8 @@ public class FoxtrotServerConfiguration extends Configuration {
     @Builder.Default
     private TextNodeRemoverConfiguration textNodeRemover = new TextNodeRemoverConfiguration();
 
+    private ClusterRerouteConfig clusterRerouteConfig;
+
     public FoxtrotServerConfiguration() {
         this.hbase = new HbaseConfig();
         this.elasticsearch = new ElasticsearchConfig();
@@ -101,7 +108,7 @@ public class FoxtrotServerConfiguration extends Configuration {
         this.emailConfig = new EmailConfig();
         this.segregationConfiguration = new SegregationConfiguration();
         this.restrictAccess = true;
-        this.elasticsearchTuningConfig = new ElasticsearchTuningConfig();
+        this.clusterRerouteConfig = new ClusterRerouteConfig();
     }
 
 }
